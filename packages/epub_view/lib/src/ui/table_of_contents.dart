@@ -19,6 +19,7 @@ class EpubViewTableOfContents extends StatelessWidget {
     int index,
     EpubViewChapter chapter,
     int itemCount,
+    EpubController controller
   )? itemBuilder;
   final Widget? loader;
 
@@ -34,7 +35,7 @@ class EpubViewTableOfContents extends StatelessWidget {
               padding: padding,
               key: Key('$runtimeType.content'),
               itemBuilder: (context, index) =>
-                  itemBuilder?.call(context, index, data[index], data.length) ??
+                  itemBuilder?.call(context, index, data[index], data.length, controller) ??
                   ListTile(
                     title: Text(data[index].title!.trim()),
                     onTap: () =>
