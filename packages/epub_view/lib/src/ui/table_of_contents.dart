@@ -8,6 +8,7 @@ class EpubViewTableOfContents extends StatelessWidget {
     this.padding,
     this.itemBuilder,
     this.loader,
+    this.itemSeparator,
     Key? key,
   }) : super(key: key);
 
@@ -19,9 +20,15 @@ class EpubViewTableOfContents extends StatelessWidget {
     int index,
     EpubViewChapter chapter,
     int itemCount,
-    EpubController controller
+    EpubController controller,
   )? itemBuilder;
+
   final Widget? loader;
+
+  final Widget Function(
+    BuildContext context,
+    int index,
+  )? itemSeparator;
 
   @override
   Widget build(BuildContext context) =>
@@ -31,9 +38,10 @@ class EpubViewTableOfContents extends StatelessWidget {
           Widget content;
 
           if (data.isNotEmpty) {
-            content = ListView.builder(
+            content = ListView.separated(
               padding: padding,
               key: Key('$runtimeType.content'),
+              separatorBuilder: (context, index) => itemSeparator?.call(context, index) ?? const Offstage(),
               itemBuilder: (context, index) =>
                   itemBuilder?.call(context, index, data[index], data.length, controller) ??
                   ListTile(
