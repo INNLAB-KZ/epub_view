@@ -32,12 +32,14 @@ class EpubView extends StatefulWidget {
       options: DefaultBuilderOptions(),
     ),
     this.shrinkWrap = false,
+    this.backgroundColor,
     Key? key,
   }) : super(key: key);
 
   final EpubController controller;
   final ExternalLinkPressed? onExternalLinkPressed;
   final bool shrinkWrap;
+  final Color? backgroundColor;
   final void Function(EpubChapterViewValue? value)? onChapterChanged;
 
   /// Called when a document is loaded
@@ -371,25 +373,28 @@ class _EpubViewState extends State<EpubView> {
   }
 
   Widget _buildLoaded(BuildContext context) {
-    return ScrollablePositionedList.builder(
-      shrinkWrap: widget.shrinkWrap,
-      initialScrollIndex: _epubCfiReader!.paragraphIndexByCfiFragment ?? 0,
-      itemCount: _paragraphs.length,
-      itemScrollController: _itemScrollController,
-      itemPositionsListener: _itemPositionListener,
-      itemBuilder: (BuildContext context, int index) {
-        return widget.builders.chapterBuilder(
-          context,
-          widget.builders,
-          widget.controller._document!,
-          _chapters,
-          _paragraphs,
-          index,
-          _getChapterIndexBy(positionIndex: index),
-          _getParagraphIndexBy(positionIndex: index),
-          _onLinkPressed,
-        );
-      },
+    return Container(
+      color: widget.backgroundColor ?? Colors.white,
+      child: ScrollablePositionedList.builder(
+        shrinkWrap: widget.shrinkWrap,
+        initialScrollIndex: _epubCfiReader!.paragraphIndexByCfiFragment ?? 0,
+        itemCount: _paragraphs.length,
+        itemScrollController: _itemScrollController,
+        itemPositionsListener: _itemPositionListener,
+        itemBuilder: (BuildContext context, int index) {
+          return widget.builders.chapterBuilder(
+            context,
+            widget.builders,
+            widget.controller._document!,
+            _chapters,
+            _paragraphs,
+            index,
+            _getChapterIndexBy(positionIndex: index),
+            _getParagraphIndexBy(positionIndex: index),
+            _onLinkPressed,
+          );
+        },
+      ),
     );
   }
 
