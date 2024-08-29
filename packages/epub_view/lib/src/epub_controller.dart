@@ -4,10 +4,12 @@ class EpubController {
   EpubController({
     required this.document,
     this.epubCfi,
+    this.pageCount
   });
 
   Future<EpubBook> document;
   final String? epubCfi;
+  int? pageCount;
 
   _EpubViewState? _epubViewState;
   List<EpubViewChapter>? _cacheTableOfContents;

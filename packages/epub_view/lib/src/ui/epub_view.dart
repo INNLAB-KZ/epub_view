@@ -116,6 +116,8 @@ class _EpubViewState extends State<EpubView> {
     _itemPositionListener!.itemPositions.addListener(_changeListener);
     _controller.isBookLoaded.value = true;
 
+    _controller.pageCount = _paragraphs.length;
+
     return true;
   }
 
